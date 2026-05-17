@@ -11,18 +11,21 @@ Route::post('/register', [AuthController::class, 'register']);
 
 // Route Terproteksi Sesi (Wajib Token Valid)
 Route::middleware('auth:sanctum')->group(function () {
-    
+
     // Ambil data user yang login
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-    // Fitur Manajemen Laporan Kelompokmu
-    Route::post('/reports', [ReportController::class, 'store']); 
+    // Update profile user yang sedang login
+    Route::post('/profile', [AuthController::class, 'updateProfile']);
+
+    // Fitur Manajemen Laporan
+    Route::post('/reports', [ReportController::class, 'store']);
     Route::get('/reports', [ReportController::class, 'index']);
     Route::get('/my-reports', [ReportController::class, 'myReports']);
     Route::put('/reports/{id}/status', [ReportController::class, 'updateStatus']);
-    
+
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 });
